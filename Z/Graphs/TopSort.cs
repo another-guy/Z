@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Z.Sets;
 
 namespace Z.Graphs
 {
@@ -57,17 +58,6 @@ namespace Z.Graphs
                     Run(graph, visited, stack, edge.Destination);
 
             stack.Push(current);
-        }
-    }
-
-    public static class SetX
-    {
-        public static ISet<T> Difference<T>(this ISet<T> baseSet, ISet<T> setToSubstract)
-        {
-            var result = new HashSet<T>(baseSet);
-            foreach (var element in setToSubstract)
-                result.Remove(element);
-            return result;
         }
     }
 }
