@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Z.Graphs
 {
-    public sealed partial class OrGraph<TVertexValue>
+    public sealed class OrGraph<TVertexValue>
     {
         // TODO Add "weightened" edge marker and use it to enforce weights on edges
         // TODO Add graph id that will be imprinted into vertices and edges
 
-        private readonly IList<Vertex<TVertexValue>> vertices = new List<Vertex<TVertexValue>>();
-        private readonly IList<Edge<TVertexValue>> edges = new List<Edge<TVertexValue>>();
+        private readonly ISet<Vertex<TVertexValue>> vertices = new HashSet<Vertex<TVertexValue>>();
+        private readonly ISet<Edge<TVertexValue>> edges = new HashSet<Edge<TVertexValue>>();
 
-        public IList<Vertex<TVertexValue>> Vertices => new ReadOnlyCollection<Vertex<TVertexValue>>(vertices);
-        public IList<Edge<TVertexValue>> Edges => new ReadOnlyCollection<Edge<TVertexValue>>(edges);
+        // TODO HIGH Clone, protect!
+        public ISet<Vertex<TVertexValue>> Vertices => vertices;
+        public ISet<Edge<TVertexValue>> Edges => edges;
 
         public Vertex<TVertexValue> AddVertex(TVertexValue key)
         {
