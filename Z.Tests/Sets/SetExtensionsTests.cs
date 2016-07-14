@@ -6,8 +6,8 @@ namespace Z.Tests.Sets
 {
     public class SetExtensionsTests
     {
-        [Theory, MemberData("DifferenceData", null)]
-        public void T(string[] baseSetItems, string[] substituteDataItems, string[] expectedResultSetItems)
+        [Theory, MemberData(nameof(DifferenceData), null)]
+        public void DifferenceCalculatedCorrectly(string[] baseSetItems, string[] substituteDataItems, string[] expectedResultSetItems)
         {
             // Arrange
             var baseSet = new HashSet<string>(baseSetItems);
