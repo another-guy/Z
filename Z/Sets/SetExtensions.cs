@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Z.Sets
 {
-    // TODO Unit test
     public static class SetExtensions
     {
         public static ISet<T> Difference<T>(this IEnumerable<T> baseSet, IEnumerable<T> setToSubstract)
