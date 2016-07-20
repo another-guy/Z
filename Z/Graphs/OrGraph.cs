@@ -6,8 +6,6 @@ namespace Z.Graphs
 {
     public sealed class OrGraph<TVertexValue, TEdgeValue>
     {
-        // TODO Add graph id that will be imprinted into vertices and edges
-
         private readonly ISet<Vertex<TVertexValue>> vertices = new HashSet<Vertex<TVertexValue>>();
         private readonly ISet<Edge<TVertexValue, TEdgeValue>> edges = new HashSet<Edge<TVertexValue, TEdgeValue>>();
 

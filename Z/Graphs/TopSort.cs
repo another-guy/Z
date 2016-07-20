@@ -21,8 +21,7 @@ namespace Z.Graphs
 
                 Run(graph, visited, stack, current);
             }
-
-            // TODO correct order ???
+            
             return stack.ToList();
         }
 
