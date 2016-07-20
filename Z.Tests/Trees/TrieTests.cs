@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 using Z.Trees;
 
@@ -7,22 +6,24 @@ namespace Z.Tests.Trees
 {
     public class TrieTests
     {
-        private readonly Trie sut = new Trie();
+        private readonly Trie<object> sut = new Trie<object>();
 
         [Theory]
         [MemberData(nameof(AddAndContainsWorkTogetherData))]
-        public void AddAndContainsWorkTogether(string[] words)
+        public void AddAndContainsWorkTogether(string[] words, int[] values)
         {
             // Arrange
             var knownWords = new List<string>();
-            foreach (var word in words)
+            for (var index = 0; index < words.Length; index++)
             {
+                var word = words[index];
+
                 // Assume
                 Assert.False(sut.Contains(word));
                 knownWords.Add(word);
 
                 // Act
-                sut.Add(word);
+                sut.Add(word, values[index]);
 
                 // Assert
                 foreach (var w in words)
@@ -33,9 +34,9 @@ namespace Z.Tests.Trees
         public static IEnumerable<object[]> AddAndContainsWorkTogetherData =>
             new List<object[]>
             {
-                new object[] { new [] { "Alpha" } },
-                new object[] { new [] { "Alpha", "Beta" } },
-                new object[] { new [] { "Alpha", "Beta", "Astra" } }
+                new object[] { new [] { "Alpha" }, new [] { 1 } },
+                new object[] { new [] { "Alpha", "Beta" }, new [] { 1, 2 } },
+                new object[] { new [] { "Alpha", "Beta", "Astra" }, new[] { 1, 2, 3 } }
             };
 
         [Theory]
@@ -47,7 +48,7 @@ namespace Z.Tests.Trees
                 Assert.False(sut.IsPrefix(word.Substring(0, len)));
 
             // Act
-            sut.Add(word);
+            sut.Add(word, 1);
 
             // Assert
             Assert.True(sut.IsPrefix(string.Empty));
@@ -64,6 +65,35 @@ namespace Z.Tests.Trees
             {
                 new object[] { "Alpha", new [] { "X", "Y", "Z" } },
                 new object[] { "Beta", new [] { "A", "BB" } }
+            };
+
+        [Theory]
+        [MemberData(nameof(AddAndGetWorkTogetherData))]
+        public void AddAndGetWorkTogether(string[] words, int[] values)
+        {
+            // Arrange
+            var knownWords = new List<string>();
+            for (var index = 0; index < words.Length; index++)
+            {
+                var word = words[index];
+
+                // Assume
+                knownWords.Add(word);
+
+                // Act
+                sut.Add(word, values[index]);
+
+                // Assert
+                Assert.Equal(values[index], sut.Get(word));
+            }
+        }
+
+        public static IEnumerable<object[]> AddAndGetWorkTogetherData =>
+            new List<object[]>
+            {
+                new object[] { new [] { "Alpha" }, new [] { 1 } },
+                new object[] { new [] { "Alpha", "Beta" }, new [] { 1, 2 } },
+                new object[] { new [] { "Alpha", "Beta", "Astra" }, new[] { 1, 2, 3 } }
             };
     }
 }
