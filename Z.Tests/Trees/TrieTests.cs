@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
 using Z.Trees;
 
@@ -95,5 +96,18 @@ namespace Z.Tests.Trees
                 new object[] { new [] { "Alpha", "Beta" }, new [] { 1, 2 } },
                 new object[] { new [] { "Alpha", "Beta", "Astra" }, new[] { 1, 2, 3 } }
             };
+
+        [Fact]
+        public void EnforceWhitespaceTrimmingWorks()
+        {
+            // Arrange
+            var sut2 = new Trie<object>(enforceWhitespaceTrimming: true);
+
+            // Act
+            var caught = Assert.Throws<ArgumentException>(() => sut2.Add("   x", 1));
+
+            // Assert
+            Assert.Equal($"searchKey='   x' contains whitespaces that must be trimmed.", caught.Message);
+        }
     }
 }

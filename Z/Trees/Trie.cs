@@ -6,43 +6,45 @@ namespace Z.Trees
     public sealed class Trie<T> : TrieNode<T>
     {
         private readonly bool caseSensitive;
+        private readonly bool enforceWhitespaceTrimming;
 
-        public Trie(bool caseSensitive = false)
+        public Trie(bool caseSensitive = false, bool enforceWhitespaceTrimming = false)
         {
-            // TODO Whitespaces check on both ends
             this.caseSensitive = caseSensitive;
+            this.enforceWhitespaceTrimming = enforceWhitespaceTrimming;
         }
 
         public void Add(string word, T relatedValue)
         {
-            if (caseSensitive == false)
-                word = word.ToLower();
-
+            word = AdjustSearchKeyBasedOnCaseSensivity(word);
             base.Add(word, relatedValue);
         }
 
         public T Get(string word)
         {
-            if (caseSensitive == false)
-                word = word.ToLower();
-
+            word = AdjustSearchKeyBasedOnCaseSensivity(word);
             return base.Get(word);
         }
 
         public bool Contains(string word)
         {
-            if (caseSensitive == false)
-                word = word.ToLower();
-
+            word = AdjustSearchKeyBasedOnCaseSensivity(word);
             return base.Contains(word);
         }
 
         public bool IsPrefix(string prefix)
         {
-            if (caseSensitive == false)
-                prefix = prefix.ToLower();
-
+            prefix = AdjustSearchKeyBasedOnCaseSensivity(prefix);
             return base.IsPrefix(prefix);
+        }
+
+        private string AdjustSearchKeyBasedOnCaseSensivity(string searchKey)
+        {
+            var containsWhitespacesToTrim = searchKey.Trim().Length != searchKey.Length;
+            if (enforceWhitespaceTrimming && containsWhitespacesToTrim)
+                throw new ArgumentException($"searchKey='{searchKey}' contains whitespaces that must be trimmed.");
+
+            return caseSensitive ? searchKey : searchKey.ToLower();
         }
     }
 
