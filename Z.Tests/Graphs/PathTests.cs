@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Z.Graphs;
@@ -11,7 +12,7 @@ namespace Z.Tests.Graphs
         private readonly Path sut = new Path();
 
         [Theory, MemberData(nameof(PathExistsData))]
-        public void PathExistsCalculatedCorrectly(string[] vertices, string[][] edges, string[] path, bool pathActiallyExists)
+        public void PathExistsCalculatedCorrectly(string[] vertices, Tuple<string, string, int>[] edges, string[] path, bool pathActiallyExists)
         {
             // Arrange
             var graph = new OrGraphFactory().CreateFrom(vertices, edges);
@@ -33,7 +34,7 @@ namespace Z.Tests.Graphs
                     new[] { "a", "b" },
                     new[]
                     {
-                        new [] { "a", "b" }
+                        Tuple.Create("a", "b", 1)
                     },
                     new [] { "a", "b" },
                     true
@@ -43,7 +44,7 @@ namespace Z.Tests.Graphs
                     new[] { "a", "b" },
                     new[]
                     {
-                        new [] { "b", "a" }
+                        Tuple.Create("b", "a", 1)
                     },
                     new [] { "a", "b" },
                     false
@@ -53,8 +54,8 @@ namespace Z.Tests.Graphs
                     new[] { "a", "b", "c" },
                     new[]
                     {
-                        new [] { "a", "b" },
-                        new [] { "b", "c" }
+                        Tuple.Create("a", "b", 1),
+                        Tuple.Create("b", "c", 1)
                     },
                     new [] { "a", "c" },
                     true
@@ -64,8 +65,8 @@ namespace Z.Tests.Graphs
                     new[] { "a", "b", "c" },
                     new[]
                     {
-                        new [] { "a", "b" },
-                        new [] { "b", "c" }
+                        Tuple.Create("a", "b", 1),
+                        Tuple.Create("b", "c", 1)
                     },
                     new [] { "c", "a" },
                     false
@@ -75,7 +76,7 @@ namespace Z.Tests.Graphs
                     new[] { "a" },
                     new[]
                     {
-                        new [] { "a", "a" }
+                        Tuple.Create("a", "a", 1)
                     },
                     new [] { "a", "a" },
                     true

@@ -63,7 +63,7 @@ namespace Z.Tests.Trees
         public static IEnumerable<object[]> AddAndIsPrefixWorkTogetherData =>
             new List<object[]>
             {
-                new object[] { "Alpha", new [] { "X", "Y", "Z" } },
+                new object[] { "Alpha", new [] { "PopWorks", "Y", "Z" } },
                 new object[] { "Beta", new [] { "A", "BB" } }
             };
 

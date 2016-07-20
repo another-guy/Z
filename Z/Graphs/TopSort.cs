@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Z.Collections;
 using Z.Sets;
 
 namespace Z.Graphs
@@ -15,10 +16,8 @@ namespace Z.Graphs
                 var notVisited = graph.Vertices.Difference(visited);
                 if (notVisited.Count == 0)
                     break;
-
-                // TODO pop() ???
-                var current = notVisited.First();
-                notVisited.Remove(current);
+                
+                var current = notVisited.Pop();
 
                 Run(graph, visited, stack, current);
             }
