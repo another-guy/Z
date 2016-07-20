@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Z.Graphs;
@@ -11,7 +12,7 @@ namespace Z.Tests.Graphs
         private readonly TopSort sut = new TopSort();
 
         [Theory, MemberData(nameof(GraphData))]
-        public void TopSortCalculatedCorrectly(string[] vertices, string[][] edges, object knownDetermenisticResult)
+        public void TopSortCalculatedCorrectly(string[] vertices, Tuple<string, string, int>[] edges, object knownDetermenisticResult)
         {
             // Arrange
             var graph = new OrGraphFactory().CreateFrom(vertices, edges);
@@ -35,8 +36,8 @@ namespace Z.Tests.Graphs
                     new[] { "a", "b", "c" },
                     new[]
                     {
-                        new [] { "a", "b" },
-                        new [] { "b", "c" }
+                        Tuple.Create("a", "b", 1),
+                        Tuple.Create("b", "c", 1)
                     },
                     new List<string> { "a", "b", "c" }
                 },
@@ -45,17 +46,17 @@ namespace Z.Tests.Graphs
                     new[] { "a", "b", "c", "d", "e" },
                     new[]
                     {
-                        new [] { "a", "b" },
-                        new [] { "b", "c" },
-                        new [] { "b", "d" },
-                        new [] { "c", "e" },
-                        new [] { "d", "e" },
+                        Tuple.Create("a", "b", 1),
+                        Tuple.Create("b", "c", 1),
+                        Tuple.Create("b", "d", 1),
+                        Tuple.Create("c", "e", 1),
+                        Tuple.Create("d", "e", 1)
                     },
                     "result is not deterministic"
                 }
             };
 
-        private bool IsTopSort(OrGraph<string> graph, IList<Vertex<string>> topSort)
+        private bool IsTopSort(OrGraph<string, int> graph, IList<Vertex<string>> topSort)
         {
             for (var sourceIndex = 0; sourceIndex < topSort.Count - 1; sourceIndex++)
             {

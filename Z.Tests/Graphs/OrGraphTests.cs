@@ -8,7 +8,7 @@ namespace Z.Tests.Graphs
 {
     public class OrGraphTests
     {
-        private readonly OrGraph<string> sut = new OrGraph<string>();
+        private readonly OrGraph<string, int> sut = new OrGraph<string, int>();
 
         [Fact]
         public void VerticesAdditionSucceeds()
@@ -46,7 +46,7 @@ namespace Z.Tests.Graphs
             var b = sut.AddVertex("b");
 
             // Act
-            var e = sut.AddEdge(a, b);
+            var e = sut.AddEdge(a, b, 1);
 
             // Assert
             Assert.Equal(a, e.Source);
@@ -58,13 +58,13 @@ namespace Z.Tests.Graphs
         public void EdgeAddFailsWhenSrcVertexDoesntExist()
         {
             // Arrange
-            var otherGraph = new OrGraph<string>();
+            var otherGraph = new OrGraph<string, int>();
 
             var a = otherGraph.AddVertex("a");
             var b = sut.AddVertex("b");
 
             // Act
-            var caught = Assert.Throws<InvalidOperationException>(() => sut.AddEdge(a, b));
+            var caught = Assert.Throws<InvalidOperationException>(() => sut.AddEdge(a, b, 1));
 
             // Assert
             Assert.Equal("Source vertex does not exist", caught.Message);
@@ -74,13 +74,13 @@ namespace Z.Tests.Graphs
         public void EdgeAddFailsWhenDestVertexDoesntExist()
         {
             // Arrange
-            var otherGraph = new OrGraph<string>();
+            var otherGraph = new OrGraph<string, int>();
 
             var a = sut.AddVertex("a");
             var b = otherGraph.AddVertex("b");
 
             // Act
-            var caught = Assert.Throws<InvalidOperationException>(() => sut.AddEdge(a, b));
+            var caught = Assert.Throws<InvalidOperationException>(() => sut.AddEdge(a, b, 1));
 
             // Assert
             Assert.Equal("Destination vertex does not exist", caught.Message);
@@ -93,10 +93,10 @@ namespace Z.Tests.Graphs
             var a = sut.AddVertex("a");
             var b = sut.AddVertex("b");
 
-            sut.AddEdge(a, b);
+            sut.AddEdge(a, b, 1);
 
             // Act
-            var caught = Assert.Throws<InvalidOperationException>(() => sut.AddEdge(a, b));
+            var caught = Assert.Throws<InvalidOperationException>(() => sut.AddEdge(a, b, 1));
 
             // Assert
             Assert.Equal("Edge from 'a' to 'b' already exists", caught.Message);

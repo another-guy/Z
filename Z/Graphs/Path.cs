@@ -5,9 +5,9 @@ namespace Z.Graphs
 {
     public sealed class Path
     {
-        public bool Exists<TVertexValue>(Vertex<TVertexValue> from, Vertex<TVertexValue> to, OrGraph<TVertexValue> inGraph)
+        public bool Exists<TVertexValue, TEdgeValue>(Vertex<TVertexValue> from, Vertex<TVertexValue> to, OrGraph<TVertexValue, TEdgeValue> inGraph)
         {
-            var edgesToGo = new Queue<Edge<TVertexValue>>(inGraph.Edges.Where(e => e.Source.Equals(from)));
+            var edgesToGo = new Queue<Edge<TVertexValue, TEdgeValue>>(inGraph.Edges.Where(e => e.Source.Equals(from)));
             while (edgesToGo.Count > 0)
             {
                 var currentEdge = edgesToGo.Dequeue();

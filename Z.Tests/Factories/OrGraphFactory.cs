@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Z.Graphs;
 
@@ -6,9 +7,9 @@ namespace Z.Tests.Factories
 {
     public class OrGraphFactory
     {
-        public OrGraph<T> CreateFrom<T>(IEnumerable<T> vertices, IEnumerable<T[]> edges)
+        public OrGraph<TVertexValue, TEdgeValue> CreateFrom<TVertexValue, TEdgeValue>(IEnumerable<TVertexValue> vertices, Tuple<TVertexValue, TVertexValue, TEdgeValue>[] edges)
         {
-            var graph = new OrGraph<T>();
+            var graph = new OrGraph<TVertexValue, TEdgeValue>();
 
             foreach (var vertex in vertices)
             {
@@ -17,9 +18,9 @@ namespace Z.Tests.Factories
 
             foreach (var edge in edges)
             {
-                var v1 = graph.Vertices.Single(v => v.Key.Equals(edge[0]));
-                var v2 = graph.Vertices.Single(v => v.Key.Equals(edge[1]));
-                graph.AddEdge(v1, v2);
+                var v1 = graph.Vertices.Single(v => v.Key.Equals(edge.Item1));
+                var v2 = graph.Vertices.Single(v => v.Key.Equals(edge.Item2));
+                graph.AddEdge(v1, v2, edge.Item3);
             }
 
             return graph;
