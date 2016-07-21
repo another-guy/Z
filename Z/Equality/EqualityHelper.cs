@@ -33,18 +33,11 @@ namespace Z.Equality
 
         public static bool CalculateEquals(object[] equalityMembers1, object[] equalityMembers2)
         {
-            /*return EqualityComparer<T1>.Default.Equals(t1, other.t1)
-                && EqualityComparer<T2>.Default.Equals(t2, other.t2)
-                && EqualityComparer<T3>.Default.Equals(t3, other.t3)
-                && EqualityComparer<T4>.Default.Equals(t4, other.t4)
-                && EqualityComparer<T5>.Default.Equals(t5, other.t5)
-                && EqualityComparer<T6>.Default.Equals(t6, other.t6)
-                && a == other.a
-                && b == other.b
-                && c == other.c
-                && Equals(d, other.d)
-                && e == other.e;*/
-            var length = Math.Max(equalityMembers1.Length, equalityMembers2.Length);
+            var l1 = equalityMembers1.Length;
+            var l2 = equalityMembers2.Length;
+            if (l1 != l2) return false;
+
+            var length = Math.Max(l1, l2);
             for (var index = 0; index < length; index++)
             {
                 var object1 = equalityMembers1[index];

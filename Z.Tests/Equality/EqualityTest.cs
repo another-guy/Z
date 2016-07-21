@@ -55,8 +55,6 @@ namespace Z.Tests.Equality
             Assert.False(EqualityHelper.CalculateReferentialEquals(123, sample));
         }
 
-        // TODO Test CalculateEquals
-
         [Fact]
         public void ValueEqualityCorrectForSameObject()
         {
@@ -80,9 +78,24 @@ namespace Z.Tests.Equality
                 // Act
                 var areEqual = EqualityHelper.CalculateEquals(sample.EqualityMembers, notEqualObject.EqualityMembers);
 
-                Func<object[], string> t = list => list.Aggregate("", (a, b) => a + ", " + b);
                 // Assert
-                Assert.False(areEqual, t(sample.EqualityMembers) + " is not equal to " + t(notEqualObject.EqualityMembers));
+                Assert.False(areEqual);
+            }
+        }
+
+        [Fact]
+        public void ValueEqualityCorrectReturnsFalseForObjectsWithDifferentEqualityMember()
+        {
+            // Arrange
+            foreach (var notEqualObject in NotSame)
+            {
+                // Act
+                var areEqual1 = EqualityHelper.CalculateEquals(sample.EqualityMembers, notEqualObject.EqualityMembers.Take(3).ToArray());
+                var areEqual2 = EqualityHelper.CalculateEquals(sample.EqualityMembers.Take(3).ToArray(), notEqualObject.EqualityMembers);
+
+                // Assert
+                Assert.False(areEqual1);
+                Assert.False(areEqual2);
             }
         }
 
