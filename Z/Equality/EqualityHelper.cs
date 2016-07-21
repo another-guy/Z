@@ -44,15 +44,23 @@ namespace Z.Equality
                 && c == other.c
                 && Equals(d, other.d)
                 && e == other.e;*/
-            var maxIndex = Math.Max(equalityMembers1.Length, equalityMembers2.Length) - 1;
-            for (var index = 0; index < maxIndex; index++)
+            var length = Math.Max(equalityMembers1.Length, equalityMembers2.Length);
+            for (var index = 0; index < length; index++)
             {
                 var object1 = equalityMembers1[index];
                 var object2 = equalityMembers2[index];
-                if (Equals(object1, object2) == false)
+                
+                if (ItemsEqual(object1, object2) == false)
                     return false;
             }
             return true;
+        }
+
+        public static bool ItemsEqual(object object1, object object2)
+        {
+            if (object1 == null && object2 == null) return true;
+            if (object1 == null || object2 == null) return false;
+            return object1.Equals(object2);
         }
     }
 }

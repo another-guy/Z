@@ -80,8 +80,9 @@ namespace Z.Tests.Equality
                 // Act
                 var areEqual = EqualityHelper.CalculateEquals(sample.EqualityMembers, notEqualObject.EqualityMembers);
 
+                Func<object[], string> t = list => list.Aggregate("", (a, b) => a + ", " + b);
                 // Assert
-                Assert.False(areEqual);
+                Assert.False(areEqual, t(sample.EqualityMembers) + " is not equal to " + t(notEqualObject.EqualityMembers));
             }
         }
 
@@ -95,7 +96,7 @@ namespace Z.Tests.Equality
         private static List<SampleClass<string>> NotSame =>
             new List<SampleClass<string>>
             {
-                new SampleClass<string>("other"), ????
+                new SampleClass<string>("other"), // TODO TEST
                 new SampleClass<string>(@string) { I = 35 },
                 new SampleClass<string>(@string) { DC = 234 },
                 new SampleClass<string>(@string) { B = true },
