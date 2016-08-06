@@ -1,5 +1,19 @@
 {
+  "title": "Z",
   "version": "1.0.1-*",
+  "description": "Data structures and algorithms",
+  "authors": [ "Igor Soloydenko" ],
+  "copyright": "MIT",
+  "packOptions": {
+    "licenseUrl": "https://raw.githubusercontent.com/another-guy/Z/master/LICENSE.txt",
+    "tags": [ "ADT", "algorithms", "structures" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/another-guy/Z"
+    },
+    "projectUrl": "https://github.com/another-guy/Z"
+  },
+  "language": "en-us",
 
   "dependencies": {
     "NETStandard.Library": "1.6.0"
