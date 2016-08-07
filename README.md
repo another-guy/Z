@@ -26,6 +26,17 @@ Unit tests are available in Z.Tests project.
 
 The code is distributed under the MIT license.
 
+## Reporting an Issue
+
+Reporting an issue, proposing a feature, or asking a question are all great ways to improve software quality.
+
+Here are a few important things that package contributors will expect to see in a new born GitHub issue:
+* the relevant version of the package;
+* the steps to reproduce;
+* the expected result;
+* the observed result;
+* some code samples illustrating current inconveniences and/or proposed improvements.
+
 ## Contributing
 
 Contribution is the best way to improve any project!
