@@ -6,52 +6,47 @@ namespace Z.Graphs
 {
     public sealed class OrGraph<TVertexValue, TEdgeValue>
     {
-        private readonly ISet<Vertex<TVertexValue>> vertices = new HashSet<Vertex<TVertexValue>>();
-        private readonly ISet<Edge<TVertexValue, TEdgeValue>> edges = new HashSet<Edge<TVertexValue, TEdgeValue>>();
-
         // TODO HIGH Clone, protect!
-        public ISet<Vertex<TVertexValue>> Vertices => vertices;
-        public ISet<Edge<TVertexValue, TEdgeValue>> Edges => edges;
+        public ISet<Vertex<TVertexValue>> Vertices { get; } = new HashSet<Vertex<TVertexValue>>();
+        public ISet<Edge<TVertexValue, TEdgeValue>> Edges { get; } = new HashSet<Edge<TVertexValue, TEdgeValue>>();
 
         public Vertex<TVertexValue> AddVertex(TVertexValue key)
         {
-            if (vertices.Any(v => v.Key.Equals(key)))
+            if (Vertices.Any(v => v.Key.Equals(key)))
                 throw new InvalidOperationException($"Vertex with key '{key}' already exists");
 
             var newVertex = new Vertex<TVertexValue>(key);
-            vertices.Add(newVertex);
+            Vertices.Add(newVertex);
             return newVertex;
         }
 
         public Edge<TVertexValue, TEdgeValue> AddEdge(Vertex<TVertexValue> source, Vertex<TVertexValue> destination, TEdgeValue value)
         {
-            if (edges.Any(e => e.Source.Equals(source) && e.Destination.Equals(destination)))
+            if (Edges.Any(e => e.Source.Equals(source) && e.Destination.Equals(destination)))
                 throw new InvalidOperationException($"Edge from '{source.Key}' to '{destination.Key}' already exists");
-            if (vertices.Contains(source) == false)
+            if (Vertices.Contains(source) == false)
                 throw new InvalidOperationException("Source vertex does not exist");
-            if (vertices.Contains(destination) == false)
+            if (Vertices.Contains(destination) == false)
                 throw new InvalidOperationException("Destination vertex does not exist");
 
             var newEdge = new Edge<TVertexValue, TEdgeValue>(source, destination, value);
-            edges.Add(newEdge);
+            Edges.Add(newEdge);
             return newEdge;
         }
     }
 
     public sealed class Vertex<TVertexValue>
     {
-        private readonly TVertexValue key;
-
-        public TVertexValue Key => key;
+        public TVertexValue Key { get; }
 
         public Vertex(TVertexValue key)
         {
-            this.key = key;
+            Key = key;
         }
 
         private bool Equals(Vertex<TVertexValue> other)
         {
-            return EqualityComparer<TVertexValue>.Default.Equals(key, other.key);
+            return EqualityComparer<TVertexValue>.Default.Equals(Key, other.Key);
         }
 
         public override bool Equals(object obj)
@@ -63,31 +58,27 @@ namespace Z.Graphs
 
         public override int GetHashCode()
         {
-            return EqualityComparer<TVertexValue>.Default.GetHashCode(key);
+            return EqualityComparer<TVertexValue>.Default.GetHashCode(Key);
         }
     }
 
     public sealed class Edge<TVertexValue, TEdgeValue>
     {
-        private readonly Vertex<TVertexValue> source;
-        private readonly Vertex<TVertexValue> destination;
-        private readonly TEdgeValue value;
-
-        public Vertex<TVertexValue> Source => source;
-        public Vertex<TVertexValue> Destination => destination;
-        public TEdgeValue Value => value;
+        public Vertex<TVertexValue> Source { get; }
+        public Vertex<TVertexValue> Destination { get; }
+        public TEdgeValue Value { get; }
 
         public Edge(Vertex<TVertexValue> source, Vertex<TVertexValue> destination, TEdgeValue value)
         {
-            this.source = source;
-            this.destination = destination;
-            this.value = value;
+            Source = source;
+            Destination = destination;
+            Value = value;
         }
 
         private bool Equals(Edge<TVertexValue, TEdgeValue> other)
         {
-            return Equals(source, other.source) && Equals(destination, other.destination) &&
-                EqualityComparer<TEdgeValue>.Default.Equals(value, other.value);
+            return Equals(Source, other.Source) && Equals(Destination, other.Destination) &&
+                EqualityComparer<TEdgeValue>.Default.Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -101,9 +92,9 @@ namespace Z.Graphs
         {
             unchecked
             {
-                var hashCode = source?.GetHashCode() ?? 0;
-                hashCode = (hashCode*397) ^ (destination?.GetHashCode() ?? 0);
-                hashCode = (hashCode*397) ^ EqualityComparer<TEdgeValue>.Default.GetHashCode(value);
+                var hashCode = Source?.GetHashCode() ?? 0;
+                hashCode = (hashCode*397) ^ (Destination?.GetHashCode() ?? 0);
+                hashCode = (hashCode*397) ^ EqualityComparer<TEdgeValue>.Default.GetHashCode(Value);
                 return hashCode;
             }
         }
