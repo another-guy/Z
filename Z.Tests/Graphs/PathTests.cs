@@ -15,7 +15,7 @@ namespace Z.Tests.Graphs
         public void PathExistsCalculatedCorrectly(string[] vertices, Tuple<string, string, int>[] edges, string[] path, bool pathActiallyExists)
         {
             // Arrange
-            var graph = new OrGraphFactory().CreateFrom(vertices, edges);
+            var graph = new OrGraphFactory().CreateFrom(vertices, edges, StringComparer.Ordinal);
             var v1 = graph.Vertices.Single(v => v.Key.Equals(path[0]));
             var v2 = graph.Vertices.Single(v => v.Key.Equals(path[1]));
 
