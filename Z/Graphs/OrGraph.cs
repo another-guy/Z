@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Z.Graphs
@@ -35,6 +36,7 @@ namespace Z.Graphs
         }
     }
 
+    [DebuggerDisplay("Key = {Key}")]
     public sealed class Vertex<TVertexValue>
     {
         public TVertexValue Key { get; }
@@ -62,6 +64,7 @@ namespace Z.Graphs
         }
     }
 
+    [DebuggerDisplay("Source = {Source}, Destination = {Destination}, Value = {Value}")]
     public sealed class Edge<TVertexValue, TEdgeValue>
     {
         public Vertex<TVertexValue> Source { get; }
