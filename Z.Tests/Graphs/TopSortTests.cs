@@ -9,7 +9,7 @@ namespace Z.Tests.Graphs
 {
     public class TopSortTests
     {
-        private readonly TopSort sut = new TopSort();
+        private readonly TopSort _sut = new TopSort();
 
         [Theory, MemberData(nameof(GraphDataWithStrings))]
         public void TopSortCalculatedCorrectlyForGraphOfStrings(string[] vertices, Tuple<string, string, int>[] edges, object knownDetermenisticResult)
@@ -19,7 +19,7 @@ namespace Z.Tests.Graphs
             var expectedResult = knownDetermenisticResult as List<string>;
 
             // Act
-            var result = sut.Run(graph);
+            var result = _sut.Run(graph);
 
             // Assert
             if (expectedResult == null)
@@ -36,7 +36,7 @@ namespace Z.Tests.Graphs
             var expectedResult = knownDetermenisticResult as List<Atom>;
 
             // Act
-            var result = sut.Run(graph);
+            var result = _sut.Run(graph);
 
             // Assert
             if (expectedResult == null)

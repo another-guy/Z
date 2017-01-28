@@ -9,7 +9,7 @@ namespace Z.Tests.Graphs
 {
     public class PathTests
     {
-        private readonly Path sut = new Path();
+        private readonly Path _sut = new Path();
 
         [Theory, MemberData(nameof(PathExistsData))]
         public void PathExistsCalculatedCorrectly(string[] vertices, Tuple<string, string, int>[] edges, string[] path, bool pathActiallyExists)
@@ -20,7 +20,7 @@ namespace Z.Tests.Graphs
             var v2 = graph.Vertices.Single(v => v.Key.Equals(path[1]));
 
             // Act
-            var pathExists = sut.Exists(from: v1, to: v2, inGraph: graph);
+            var pathExists = _sut.Exists(from: v1, to: v2, inGraph: graph);
 
             // Assert
             Assert.Equal(pathActiallyExists, pathExists);
