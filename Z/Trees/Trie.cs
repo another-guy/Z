@@ -5,13 +5,13 @@ namespace Z.Trees
 {
     public sealed class Trie<T> : TrieNode<T>
     {
-        private readonly bool caseSensitive;
-        private readonly bool enforceWhitespaceTrimming;
+        private readonly bool _caseSensitive;
+        private readonly bool _enforceWhitespaceTrimming;
 
         public Trie(bool caseSensitive = false, bool enforceWhitespaceTrimming = false)
         {
-            this.caseSensitive = caseSensitive;
-            this.enforceWhitespaceTrimming = enforceWhitespaceTrimming;
+            _caseSensitive = caseSensitive;
+            _enforceWhitespaceTrimming = enforceWhitespaceTrimming;
         }
 
         public void Add(string word, T relatedValue)
@@ -41,18 +41,18 @@ namespace Z.Trees
         private string AdjustSearchKeyBasedOnCaseSensivity(string searchKey)
         {
             var containsWhitespacesToTrim = searchKey.Trim().Length != searchKey.Length;
-            if (enforceWhitespaceTrimming && containsWhitespacesToTrim)
+            if (_enforceWhitespaceTrimming && containsWhitespacesToTrim)
                 throw new ArgumentException($"searchKey='{searchKey}' contains whitespaces that must be trimmed.");
 
-            return caseSensitive ? searchKey : searchKey.ToLower();
+            return _caseSensitive ? searchKey : searchKey.ToLower();
         }
     }
 
     public class TrieNode<T>
     {
-        private readonly IDictionary<char, TrieNode<T>> inner = new Dictionary<char, TrieNode<T>>();
-        private bool isWord = false;
-        private T value;
+        private readonly IDictionary<char, TrieNode<T>> _inner = new Dictionary<char, TrieNode<T>>();
+        private bool _isWord = false;
+        private T _value;
 
         internal TrieNode() { }
         
@@ -60,20 +60,20 @@ namespace Z.Trees
         {
             if (charIndex >= word.Length)
             {
-                isWord = true;
+                _isWord = true;
                 return;
             }
 
             var chr = word[charIndex];
 
             TrieNode<T> suffix;
-            if (inner.TryGetValue(chr, out suffix) == false)
+            if (_inner.TryGetValue(chr, out suffix) == false)
             {
                 suffix = new TrieNode<T>
                 {
-                    value = relatedValue
+                    _value = relatedValue
                 };
-                inner[chr] = suffix;
+                _inner[chr] = suffix;
             }
             
             suffix.Add(word, relatedValue, charIndex + 1);
@@ -83,15 +83,15 @@ namespace Z.Trees
         {
             if (charIndex >= word.Length)
             {
-                if (isWord)
-                    return value;
+                if (_isWord)
+                    return _value;
                 throw CreateWordIsNotPresentException(word);
             }
 
             var chr = word[charIndex];
 
             TrieNode<T> suffix;
-            if (inner.TryGetValue(chr, out suffix) == false)
+            if (_inner.TryGetValue(chr, out suffix) == false)
                 throw CreateWordIsNotPresentException(word);
 
             return suffix.Get(word, charIndex + 1);
@@ -101,13 +101,13 @@ namespace Z.Trees
         {
             if (charIndex >= word.Length)
             {
-                return isWord;
+                return _isWord;
             }
 
             var chr = word[charIndex];
 
             TrieNode<T> suffix;
-            if (inner.TryGetValue(chr, out suffix) == false)
+            if (_inner.TryGetValue(chr, out suffix) == false)
                 return false;
 
             return suffix.Contains(word, charIndex + 1);
@@ -121,7 +121,7 @@ namespace Z.Trees
             var chr = prefix[charIndex];
 
             TrieNode<T> suffix;
-            if (inner.TryGetValue(chr, out suffix) == false)
+            if (_inner.TryGetValue(chr, out suffix) == false)
                 return false;
 
             return suffix.IsPrefix(prefix, charIndex + 1);

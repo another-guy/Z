@@ -7,7 +7,7 @@ namespace Z.Tests.Trees
 {
     public class TrieTests
     {
-        private readonly Trie<object> sut = new Trie<object>();
+        private readonly Trie<object> _sut = new Trie<object>();
 
         [Theory]
         [MemberData(nameof(AddAndContainsWorkTogetherData))]
@@ -20,15 +20,15 @@ namespace Z.Tests.Trees
                 var word = words[index];
 
                 // Assume
-                Assert.False(sut.Contains(word));
+                Assert.False(_sut.Contains(word));
                 knownWords.Add(word);
 
                 // Act
-                sut.Add(word, values[index]);
+                _sut.Add(word, values[index]);
 
                 // Assert
                 foreach (var w in words)
-                    Assert.Equal(knownWords.Contains(w), sut.Contains(w));
+                    Assert.Equal(knownWords.Contains(w), _sut.Contains(w));
             }
         }
 
@@ -46,19 +46,19 @@ namespace Z.Tests.Trees
         {
             // Assume
             for (var len = 1; len <= word.Length; len++)
-                Assert.False(sut.IsPrefix(word.Substring(0, len)));
+                Assert.False(_sut.IsPrefix(word.Substring(0, len)));
 
             // Act
-            sut.Add(word, 1);
+            _sut.Add(word, 1);
 
             // Assert
-            Assert.True(sut.IsPrefix(string.Empty));
+            Assert.True(_sut.IsPrefix(string.Empty));
 
             for (var len = 1; len <= word.Length; len++)
-                Assert.True(sut.IsPrefix(word.Substring(0, len)));
+                Assert.True(_sut.IsPrefix(word.Substring(0, len)));
 
             foreach (var nonPrefix in nonPrefixes)
-                Assert.False(sut.IsPrefix(nonPrefix));
+                Assert.False(_sut.IsPrefix(nonPrefix));
         }
 
         public static IEnumerable<object[]> AddAndIsPrefixWorkTogetherData =>
@@ -82,10 +82,10 @@ namespace Z.Tests.Trees
                 knownWords.Add(word);
 
                 // Act
-                sut.Add(word, values[index]);
+                _sut.Add(word, values[index]);
 
                 // Assert
-                Assert.Equal(values[index], sut.Get(word));
+                Assert.Equal(values[index], _sut.Get(word));
             }
         }
 
