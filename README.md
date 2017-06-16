@@ -1,4 +1,4 @@
-﻿## Synopsis
+## Synopsis
 
 Z started as a training project for gaining experience in designing and coding data structures and algorithms.
 Implementation of many classes may be pretty straightforward if not naive.
